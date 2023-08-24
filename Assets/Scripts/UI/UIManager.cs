@@ -45,9 +45,12 @@ public class UIManager : MonoBehaviour
     {
         int level = PlayerPrefs.GetInt("level", 1);
         int sceneCount = SceneManager.sceneCountInBuildSettings;
+        Debug.Log(level + " / " + sceneCount + " //// " + level % sceneCount);
         if (level >= sceneCount)
         {
             level = level % sceneCount;
+            Debug.Log("level :" + level);
+
         }
         SceneManager.LoadScene(level);
     }
