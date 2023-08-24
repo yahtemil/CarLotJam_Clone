@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
@@ -394,21 +395,5 @@ public class GridSystemDataEditor : Editor
     }
 }
 
-[Serializable]
-public class Grids
-{
-    //public DirectionOption direction;
-    //public GridElement gridElement;
-    //public ColorOption colorOption;
-    //public Vector2Int position;
 
-    [SerializeField] public int directionValue = -1;
-    [SerializeField] public int gridElementValue = -1;
-    [SerializeField] public int colorControllerValue = -1;
-    [SerializeField] public int x;
-    [SerializeField] public int y;
-    [SerializeField] public int otherOneX;
-    [SerializeField] public int otherOneY;
-    [SerializeField] public int otherTwoX;
-    [SerializeField] public int otherTwoY;
-}
+#endif

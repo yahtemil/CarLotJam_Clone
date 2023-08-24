@@ -47,8 +47,7 @@ public class UIManager : MonoBehaviour
         int sceneCount = SceneManager.sceneCountInBuildSettings;
         if (level >= sceneCount)
         {
-            level = level % sceneCount == 0 ? sceneCount : level;
-            level -= 1;
+            level = level % sceneCount;
         }
         SceneManager.LoadScene(level);
     }
