@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424a02fadc0dc14488cfbdc716ded78f, type: 3}
   m_Name: Level4
   m_EditorClassIdentifier: 
-  level: 1
+  level: 4
   gridSizeX: 7
   gridSizeY: 7
   cellSize: {x: 1, y: 1}
