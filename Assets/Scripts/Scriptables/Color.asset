@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d9fec22b260cd438b336a63a70d617, type: 3}
+  m_Name: Color
+  m_EditorClassIdentifier: 
+  colorOptions:
+  - colorType: 0
+    color: {r: 0, g: 0, b: 0, a: 1}
+    materialOutline: {fileID: 2100000, guid: e4050340374f191448a1b2b52fd06cfb, type: 2}
+    materialNormal: {fileID: 2100000, guid: 846b26c7143ef684eaa8566da6e9bd39, type: 2}
+  - colorType: 1
+    color: {r: 0.36862746, g: 0, b: 0.8352942, a: 1}
+    materialOutline: {fileID: 2100000, guid: c5db01b27676cb84198efaf006238373, type: 2}
+    materialNormal: {fileID: 2100000, guid: 7f1cc21daecfc6a49aca1248c7a3820f, type: 2}
+  - colorType: 2
+    color: {r: 0.86274517, g: 0.47058827, b: 0.16078432, a: 1}
+    materialOutline: {fileID: 2100000, guid: 16fa9ccab04070145906a2854ef76d21, type: 2}
+    materialNormal: {fileID: 2100000, guid: 44e8680d09385c24ab2f7521661b8b72, type: 2}
+  - colorType: 3
+    color: {r: 0.29411766, g: 0.69411767, b: 0.8862746, a: 1}
+    materialOutline: {fileID: 2100000, guid: cb942be3df2e1d44daa0f1900c7dbb28, type: 2}
+    materialNormal: {fileID: 2100000, guid: 1920a41f3a492c24188e2ee7814640c0, type: 2}
+  - colorType: 4
+    color: {r: 0.86274517, g: 0.69411767, b: 0.24705884, a: 1}
+    materialOutline: {fileID: 2100000, guid: d3e65d8c1e860284cb2c4da1b51300b2, type: 2}
+    materialNormal: {fileID: 2100000, guid: bbbccf9f0fde7ad43b343ce9f5330397, type: 2}
+  - colorType: 5
+    color: {r: 0.89019614, g: 0.17254902, b: 0.14509805, a: 1}
+    materialOutline: {fileID: 2100000, guid: b1ea4bbefc7a77543be14ac7e146ac4e, type: 2}
+    materialNormal: {fileID: 2100000, guid: 931a043254903004c8b8b9dbc1de5c20, type: 2}
+  - colorType: 6
+    color: {r: 0.43529415, g: 0.81568635, b: 0, a: 1}
+    materialOutline: {fileID: 2100000, guid: b72dcbaee538b1242b9d7e96f4bd89da, type: 2}
+    materialNormal: {fileID: 2100000, guid: ae996bbe97f745e42bd43ae0390a1025, type: 2}
+  - colorType: 7
+    color: {r: 0.89019614, g: 0.427451, b: 0.7294118, a: 1}
+    materialOutline: {fileID: 2100000, guid: c8d70e2dd5529f74e96d39fd87f25ebc, type: 2}
+    materialNormal: {fileID: 2100000, guid: fef7608d0a654ab448784f35abd7c831, type: 2}

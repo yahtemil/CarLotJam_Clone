@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1207902223495435261
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1207902223495435235}
+  - component: {fileID: 1207902223495435260}
+  m_Layer: 0
+  m_Name: AStar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1207902223495435235
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207902223495435261}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1207902223495435260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207902223495435261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a42479450fc7bb4fba682b6a12146cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GridObject: {fileID: 2125164946328602128, guid: 2a66a278e15b2eb4bbf5dfd173db8253, type: 3}
+  RoadDefault: {fileID: 5468189351343889958, guid: dcad72c016f6dd94684679842714b7fb, type: 3}
+  RoadOther: {fileID: 7744231857583162329, guid: 90e05dc8aa137d240a72b725d0df60ac, type: 3}
+  RoadFinish: {fileID: 8160861728019845127, guid: 9c1381ae6ef69ab4da5285629318fea6, type: 3}
+  RoadLine: {fileID: 1202924984634315091, guid: 2a638711ce62ef0479f9ce570ef9d079, type: 3}
+  Obstacle1: {fileID: 7226735103472932185, guid: ccb8ae8e7c2b3164eb2cfa414ef3dce4, type: 3}
+  Obstacle2: {fileID: 9220274754008269814, guid: 99bc5fd6180355349a47dd099a97d23b, type: 3}
+  Car1: {fileID: 7911538132492667476, guid: 2fcea0bda79ddf44fb4559c68803073c, type: 3}
+  Car2: {fileID: 7968556214390325518, guid: 68b3877dc959c6346a839b593fa8d36d, type: 3}
+  Stickman: {fileID: 8510601616128727752, guid: 566b59f06168dad42afa670d4913eb5e, type: 3}
+  Camera1: {fileID: 0}
+  Camera2: {fileID: 0}
+  startPoint: {fileID: 0}
+  endPoint: {fileID: 0}
+  gridData: {fileID: 11400000, guid: bab54a737f4dda04fa80ca72854efcdd, type: 2}
