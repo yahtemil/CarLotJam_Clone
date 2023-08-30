@@ -166,7 +166,6 @@ public class GridSystemDataEditor : Editor
                 style.normal.textColor = textColor;
                 Color originalBackgroundColor = GUI.backgroundColor;
 
-                Debug.Log("grid direction value:" + grid.directionValue);
                 if (gridSystemData.gridDirectionDatas != null)
                     style.normal.background = gridSystemData.gridDirectionDatas.gridDirections[grid.directionValue].texture;
 
