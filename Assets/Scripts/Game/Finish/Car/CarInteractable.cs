@@ -97,7 +97,6 @@ public class CarInteractable : MonoBehaviour, IAnimation, IMovable, IObject
 
     public void Move(List<Grid> path,bool enterCar, CarInteractable carInteractable)
     {
-        Debug.Log("araba islemleri basladi");
 
         SmogEffect.Play();
         _path = new List<Grid>();
@@ -123,20 +122,17 @@ public class CarInteractable : MonoBehaviour, IAnimation, IMovable, IObject
     {
         if (carMoveControllerForward.moveReady && carMoveControllerBack.moveReady)
         {
-            Debug.Log("forward ve back acik");
             float distance1 = Vector3.Distance(transform.position, carMoveControllerForward.firstRoadTransform.position);
             float distance2 = Vector3.Distance(transform.position, carMoveControllerBack.firstRoadTransform.position);
 
             if (distance1 <= distance2)
             {
-                Debug.Log("forward acik");
                 forward = true;
                 _firstRoadTransform = carMoveControllerForward.firstRoadTransform;
                 return true;
             }
             else
             {
-                Debug.Log("back acik");
                 forward = false;
                 _firstRoadTransform = carMoveControllerBack.firstRoadTransform;
                 return true;
@@ -144,21 +140,18 @@ public class CarInteractable : MonoBehaviour, IAnimation, IMovable, IObject
         }
         else if (carMoveControllerForward.moveReady)
         {
-            Debug.Log("forward acik");
             forward = true;
             _firstRoadTransform = carMoveControllerForward.firstRoadTransform;
             return true;
         }
         else if (carMoveControllerBack.moveReady)
         {
-            Debug.Log("back acik");
             forward = false;
             _firstRoadTransform = carMoveControllerBack.firstRoadTransform;
             return true;
         }
         else
         {
-            Debug.Log("bos olarak cikti");
             return false;
         }
     }
@@ -178,7 +171,6 @@ public class CarInteractable : MonoBehaviour, IAnimation, IMovable, IObject
         meshRenderer.gameObject.transform.DOLocalRotate(new Vector3(forward ? -10f : 10f, 0f, 0f), 0.5f).
             OnComplete(() => meshRenderer.gameObject.transform.DOLocalRotate(Vector3.zero, 0.5f));
         SmogEffect.Play();
-        //yield return new WaitForSeconds(1f);
         float firstWaitTime = move.moveSpeed * Vector3.Distance(transform.position, _firstRoadTransform.position);
         transform.DOMove(_firstRoadTransform.position, firstWaitTime);
         AStar.instance.startPoint = _firstRoadTransform;

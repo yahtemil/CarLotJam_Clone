@@ -49,7 +49,6 @@ public class AStar : MonoBehaviour
         var data = JsonHelper.FromJson<Grids>(gridData.grids);
 
         Debug.Log("initialize");
-        float nodeDiameter = 1f;
         int gridSizeX = gridData.gridSizeX;
         int gridSizeY = gridData.gridSizeY;
 
@@ -163,43 +162,54 @@ public class AStar : MonoBehaviour
                 quaternion.eulerAngles = Vector3.zero;
                 obj = Instantiate(GridObject, new Vector3(x, 0f, y), quaternion, transform);
                 _grid = obj.GetComponent<Grid>();
-                quaternion = new Quaternion();
-                quaternion.eulerAngles = grid.directionValue == 0 ? new Vector3(0f, 180f, 0f): grid.directionValue == 1 ? new Vector3(0f, 0, 0f)  : grid.directionValue == 2 ? new Vector3(0f, 90f, 0f) : new Vector3(0f, -90f, 0f);
-                if (grid.gridElementValue == 1)
+                if (grid.active == 1) 
                 {
-                    obj = Instantiate(Obstacle1, new Vector3(x, 5f, y), quaternion, transform);
-                }
-                else if(grid.gridElementValue == 2)
-                {
-                    obj = Instantiate(Obstacle2, new Vector3(x, 5f, y), quaternion, transform);
-                }
-                else if (grid.gridElementValue == 3)
-                {
-                    obj = Instantiate(Car1, new Vector3(x, 5f, y), quaternion, transform);
-                    CarInteractable carInteractable = obj.GetComponent<CarInteractable>();
-                    carInteractable.SetColorOption((ColorType)grid.colorControllerValue);
-                    if(gridData.level == 1)
-                        carInteractable.SetTutorialLevel();
-                }
-                else if (grid.gridElementValue == 4)
-                {
-                    obj = Instantiate(Car2, new Vector3(x, 5f, y), quaternion, transform);
-                    CarInteractable carInteractable = obj.GetComponent<CarInteractable>();
-                    carInteractable.SetColorOption((ColorType)grid.colorControllerValue);
-                    if (gridData.level == 1)
-                        carInteractable.SetTutorialLevel();
-                }
-                else if (grid.gridElementValue == 5)
-                {
-                    obj = Instantiate(Stickman, new Vector3(x, 5f, y), quaternion, transform);
-                    StickmanInteractable stickmanInteractable = obj.GetComponent<StickmanInteractable>();
-                    stickmanInteractable.SetColorOption((ColorType)grid.colorControllerValue);
-                    if (gridData.level == 1)
-                        stickmanInteractable.SetTutorialLevel();
+                    quaternion = new Quaternion();
+                    quaternion.eulerAngles = grid.directionValue == 0 ? new Vector3(0f, 180f, 0f) : grid.directionValue == 1 ? new Vector3(0f, 0, 0f) : grid.directionValue == 2 ? new Vector3(0f, -90f, 0f) : new Vector3(0f, 90f, 0f);
+                    if (grid.gridElementValue == 1)
+                    {
+                        obj = Instantiate(Obstacle1, new Vector3(x, 5f, y), quaternion, transform);
+                    }
+                    else if (grid.gridElementValue == 2)
+                    {
+                        obj = Instantiate(Obstacle2, new Vector3(x, 5f, y), quaternion, transform);
+                    }
+                    else if (grid.gridElementValue == 3)
+                    {
+                        obj = Instantiate(Car1, new Vector3(x, 5f, y), quaternion, transform);
+                        CarInteractable carInteractable = obj.GetComponent<CarInteractable>();
+                        carInteractable.SetColorOption((ColorType)grid.colorControllerValue);
+                        if (grid.directionValue == 2 || grid.directionValue == 3)
+                            obj.transform.GetChild(0).transform.localPosition = new Vector3(0f, 0f, 1.5f);
+
+                        if (gridData.level == 1)
+                            carInteractable.SetTutorialLevel();
+                    }
+                    else if (grid.gridElementValue == 4)
+                    {
+                        obj = Instantiate(Car2, new Vector3(x, 5f, y), quaternion, transform);
+                        CarInteractable carInteractable = obj.GetComponent<CarInteractable>();
+                        carInteractable.SetColorOption((ColorType)grid.colorControllerValue);
+                        if (grid.directionValue == 2 || grid.directionValue == 3)
+                            obj.transform.GetChild(0).transform.localPosition = new Vector3(0f, 0f, 4.5f);
+
+                        if (gridData.level == 1)
+                            carInteractable.SetTutorialLevel();
+                    }
+                    else if (grid.gridElementValue == 5)
+                    {
+                        obj = Instantiate(Stickman, new Vector3(x, 5f, y), quaternion, transform);
+                        StickmanInteractable stickmanInteractable = obj.GetComponent<StickmanInteractable>();
+                        stickmanInteractable.SetColorOption((ColorType)grid.colorControllerValue);
+                        if (gridData.level == 1)
+                            stickmanInteractable.SetTutorialLevel();
+                    }
+
+                    if (grid.gridElementValue != 0)
+                        StartCoroutine(AnimationTiming(obj));
                 }
 
-                if (grid.gridElementValue != 0)
-                    StartCoroutine(AnimationTiming(obj));
+
             }
 
             _grid.positionX = x;
@@ -264,9 +274,11 @@ public class AStar : MonoBehaviour
 
     public List<Grid> FindPath()
     {
-        Debug.Log("start position:" + startPoint.position + " / endposition:" + endPoint.position);
         Grid startNode = NodeFromWorldPoint(startPoint.position);
         Grid endNode = NodeFromWorldPoint(endPoint.position);
+
+        if (startNode == endNode)
+            return RetracePath(startNode, endNode);
 
         List<Grid> openSet = new List<Grid>();
         HashSet<Grid> closedSet = new HashSet<Grid>();
@@ -304,7 +316,6 @@ public class AStar : MonoBehaviour
                 }
             }
         }
-        Debug.Log("zeroooooo");
         return null;
     }
 
@@ -312,6 +323,12 @@ public class AStar : MonoBehaviour
     {
         List<Grid> path = new List<Grid>();
         Grid currentNode = endNode;
+
+        if(startNode == endNode)
+        {
+            path.Add(startNode);
+            return path;
+        }
 
         while (currentNode != startNode)
         {

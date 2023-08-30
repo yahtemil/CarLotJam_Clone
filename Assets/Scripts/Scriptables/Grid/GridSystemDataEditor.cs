@@ -43,6 +43,11 @@ public class GridSystemDataEditor : Editor
 
         GUILayout.Space(10);
 
+        (target as GridSystemData).gridDirectionDatas = EditorGUILayout.ObjectField("Grid Direction Datas", (target as GridSystemData).gridDirectionDatas, typeof(GridDirectionData), false) as GridDirectionData;
+
+        GUILayout.Space(10);
+
+
         var data = GetLevelData(grids.stringValue, gridSizeX.intValue, gridSizeY.intValue);
 
         GUILayout.Space(10);
@@ -159,15 +164,18 @@ public class GridSystemDataEditor : Editor
                 }
 
                 style.normal.textColor = textColor;
-                style.normal.background = MakeTex(2, 2, bgColor);
                 Color originalBackgroundColor = GUI.backgroundColor;
+
+                Debug.Log("grid direction value:" + grid.directionValue);
+                if (gridSystemData.gridDirectionDatas != null)
+                    style.normal.background = gridSystemData.gridDirectionDatas.gridDirections[grid.directionValue].texture;
 
                 GUI.backgroundColor = bgColor;
 
 
                 EditorGUI.BeginDisabledGroup(IsOnGridEdge(cellPos));
 
-                if (GUILayout.Button(currentElement.ToString(), style, GUILayout.Width(40), GUILayout.Height(40)))
+                if (GUILayout.Button(GetName(currentElement), style, GUILayout.Width(40), GUILayout.Height(40)))
                 {
                     Vector2Int selectedCellPos = new Vector2Int(x, y);
                     Vector2Int targetCellPos = selectedCellPos + GetTargetAddPoint();
@@ -180,8 +188,9 @@ public class GridSystemDataEditor : Editor
                         {
                             if (grid.colorControllerValue == -1)
                             {
+                                grid.active = 1;
                                 grid.colorControllerValue = GetSelectedColorIndex(selectedElement);
-                                grid.directionValue = ((int)selectedDirection);
+                                grid.directionValue = 4;
                                 grid.gridElementValue = ((int)selectedElement);
                             }
                         }
@@ -192,12 +201,21 @@ public class GridSystemDataEditor : Editor
                         {
                             if (grid.colorControllerValue == -1 && grid2.colorControllerValue == -1)
                             {
+                                grid.active = 1;
                                 AddData(ref grid, grid2, null);
                                 AddData(ref grid2,grid, null);
                                 grid.colorControllerValue = GetSelectedColorIndex(selectedElement);
                                 grid.directionValue = ((int)selectedDirection);
                                 grid.gridElementValue = ((int)selectedElement);                               
                                 grid2.colorControllerValue = GetSelectedColorIndex(selectedElement);
+                                grid2.directionValue = ((int)selectedDirection);
+                                grid2.gridElementValue = ((int)selectedElement);
+                                grid2.active = 0;
+                                if (selectedElement == GridElement.Obstacle1x2)
+                                {
+                                    grid.colorControllerValue = GetSelectedColorIndex(0);
+                                    grid2.colorControllerValue = GetSelectedColorIndex(0);
+                                }
                             }
                         }
 
@@ -217,7 +235,14 @@ public class GridSystemDataEditor : Editor
                                 grid.directionValue = ((int)selectedDirection);
                                 grid.gridElementValue = ((int)selectedElement);                      
                                 grid2.colorControllerValue = GetSelectedColorIndex(selectedElement);
+                                grid2.directionValue = ((int)selectedDirection);
+                                grid2.gridElementValue = ((int)selectedElement);
                                 grid3.colorControllerValue = GetSelectedColorIndex(selectedElement);
+                                grid3.directionValue = ((int)selectedDirection);
+                                grid3.gridElementValue = ((int)selectedElement);
+                                grid.active = 1;
+                                grid2.active = 0;
+                                grid3.active = 0;
                             }
                         }
                     }
@@ -258,13 +283,15 @@ public class GridSystemDataEditor : Editor
     {
         selectGrid.gridElementValue = 0;
         selectGrid.colorControllerValue = -1;
-        if(selectGrid.otherOneX != 99)
+        selectGrid.directionValue = 4;
+        if (selectGrid.otherOneX != 99)
         {
             Grids firstGrids = data.FirstOrDefault((fd) => fd.x == selectGrid.otherOneX && fd.y == selectGrid.otherOneY);
             if(firstGrids != null)
             {
                 firstGrids.gridElementValue = 0;
                 firstGrids.colorControllerValue = -1;
+                firstGrids.directionValue = 4;
             }
         }
         if(selectGrid.otherTwoX != 99)
@@ -274,8 +301,26 @@ public class GridSystemDataEditor : Editor
             {
                 secondGrids.gridElementValue = 0;
                 secondGrids.colorControllerValue = -1;
+                secondGrids.directionValue = 4;
             }
         }
+    }
+
+    private string GetName(GridElement gridElement)
+    {
+        if (gridElement == GridElement.None)
+            return "X";
+        if (gridElement == GridElement.Car1x2)
+            return "C1x2";
+        if (gridElement == GridElement.Car1x3)
+            return "C1x3";
+        if (gridElement == GridElement.Stickman)
+            return "S";
+        if (gridElement == GridElement.Obstacle1x1)
+            return "O1x1";
+        if (gridElement == GridElement.Obstacle1x2)
+            return "O1x2";
+        return "";
     }
 
     private Vector2Int GetTargetAddPoint()
@@ -332,7 +377,7 @@ public class GridSystemDataEditor : Editor
                 {
                     x = x,
                     y = y,
-                    directionValue = 0,
+                    directionValue = 4,
                     gridElementValue = 0,
                     colorControllerValue = -1,
                     otherOneX = 99,

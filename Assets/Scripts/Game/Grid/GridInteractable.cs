@@ -16,9 +16,70 @@ public class GridInteractable : MonoBehaviour, IInteractionable, IAnimation
         _grid = GetComponent<Grid>();
     }
 
-    public void CancelProcess()
+    public bool FirstClick()
     {
+        InteractableType interactableType = _grid.GetInteractable();
 
+        if (interactableType == InteractableType.Stickman)
+        {
+            StickmanInteractable stickmanInteractable = GetGrid().triggerObject.GetGameObject().GetComponent<StickmanInteractable>();
+            InteractionManagers.Instance._saveInteractionable = this;
+            return stickmanInteractable.FirstClick();
+        }
+
+        return false;
+    }
+
+    public bool SecondClick()
+    {
+        InteractableType interactableType = _grid.GetInteractable();
+
+        if (interactableType == InteractableType.Stickman)
+        {
+            InteractionManagers.Instance.StickmanAnimationClose();
+            StickmanInteractable stickmanInteractable = GetGrid().triggerObject.GetGameObject().GetComponent<StickmanInteractable>();
+            InteractionManagers.Instance._saveInteractionable = this;
+            return stickmanInteractable.FirstClick();
+        }
+        else if(interactableType == InteractableType.Car)
+        {
+            CarInteractable carInteractable = GetGrid().triggerObject.GetGameObject().GetComponent<CarInteractable>();
+            if (InteractionManagers.Instance.CheckPath(carInteractable))
+            {
+                AnimationPlay(true);
+                InteractionManagers.Instance.StickmanMove(carInteractable);
+                return true;
+            }
+
+            InteractionManagers.Instance.StickmanFailMove();
+            AnimationPlay(false);
+            return false;
+
+        }
+        else if(interactableType == InteractableType.Barrier)
+        {
+            InteractionManagers.Instance.StickmanFailMove();
+            AnimationPlay(false);
+            return false;
+        }
+        else if(interactableType == InteractableType.Grid)
+        {
+            if (InteractionManagers.Instance.CheckPath(transform))
+            {
+                AnimationPlay(true);
+                InteractionManagers.Instance.SetGridTrigger(GetGrid());
+                InteractionManagers.Instance.StickmanMove();
+                return true;
+            }
+            else
+            {
+                InteractionManagers.Instance.StickmanFailMove();
+                AnimationPlay(false);
+                return false;
+            }
+        }
+
+        return false;
     }
 
     public Grid GetGrid()
@@ -88,4 +149,6 @@ public class GridInteractable : MonoBehaviour, IInteractionable, IAnimation
     {
         return _grid.triggerObject.GetGameObject().GetComponent<IMovable>();
     }
+
+
 }

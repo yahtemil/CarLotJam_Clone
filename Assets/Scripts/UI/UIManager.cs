@@ -43,13 +43,11 @@ public class UIManager : MonoBehaviour
 
     public void ContinueButton()
     {
-        int level = PlayerPrefs.GetInt("level", 1);
+        int level = PlayerPrefs.GetInt("level", 1) - 1;
         int sceneCount = SceneManager.sceneCountInBuildSettings;
-        Debug.Log(level + " / " + sceneCount + " //// " + level % sceneCount);
         if (level >= sceneCount)
         {
             level = level % sceneCount;
-            Debug.Log("level :" + level);
 
         }
         SceneManager.LoadScene(level);

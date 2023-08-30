@@ -982,6 +982,10 @@ PrefabInstance:
       propertyPath: Camera2
       value: 
       objectReference: {fileID: 778475941}
+    - target: {fileID: 1207902223495435260, guid: 9faf28090d8573a4db01f39c89cfa7d9, type: 3}
+      propertyPath: gridData
+      value: 
+      objectReference: {fileID: 11400000, guid: 18b76792bebb51a4397591dfa1c5bbed, type: 2}
     - target: {fileID: 1207902223495435261, guid: 9faf28090d8573a4db01f39c89cfa7d9, type: 3}
       propertyPath: m_Name
       value: AStar

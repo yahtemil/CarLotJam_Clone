@@ -24,12 +24,33 @@ public class StickmanInteractable : MonoBehaviour, IMovable, IAnimation, IObject
         skinnedMeshRenderer.material.SetFloat("_Outline", 0f);
     }
 
+    public bool FirstClick()
+    {
+        if (moving == false)
+        {
+            AnimationPlay(true);
+            return true;
+        }
+        return false;
+    }
+
+    public bool SecondClick()
+    {
+        if(moving == false)
+        {
+            AnimationPlay(false);
+            return false;
+        }
+        return false;
+
+    }
+
     public void SetColorOption(ColorType _colorType)
     {
         colorType = _colorType;
         ColorOption colorOption = colorController.colorOptions.Find((x) => x.colorType == _colorType);
         skinnedMeshRenderer.material = colorOption.materialOutline;
-        skinnedMeshRenderer.material.color = colorOption.color;
+        //skinnedMeshRenderer.material.color = colorOption.color;
         skinnedMeshRenderer.material.SetFloat("_Outline", 0f);
     }
 
@@ -103,6 +124,7 @@ public class StickmanInteractable : MonoBehaviour, IMovable, IAnimation, IObject
 
     IEnumerator MoveTiming(bool enterCar, CarInteractable carInteractable)
     {
+        animator.Play("Running");
         foreach (Grid item in _path)
         {
             transform.DOLookAt(item.transform.position, move.rotateSpeed);

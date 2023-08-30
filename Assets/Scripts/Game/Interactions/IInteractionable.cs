@@ -10,9 +10,8 @@ public interface IInteractionable
     IMovable GetIMovable();
 
     Grid GetGrid();
-    void OnClickInteraction();
-
-    void CancelProcess();
+    bool FirstClick();
+    bool SecondClick();
 
     bool GetWalkable();
 }

@@ -46,7 +46,6 @@ public class CarMoveController : MonoBehaviour
                 objectList.Remove(other.gameObject);
                 if(objectList.Count == 0)
                 {
-                    Debug.Log("check");
                     moveReady = true;
                     carInteractable.SetMoveReady(true, firstRoadTransform,forward);
                 }
