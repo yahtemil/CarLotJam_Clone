@@ -11,12 +11,9 @@ public class GridSystemDataEditor : Editor
     private SerializedProperty level;
     private SerializedProperty gridSizeX;
     private SerializedProperty gridSizeY;
-    //private SerializedProperty cellColorOptions;
     private SerializedProperty grids;
 
     private GridElement selectedElement = GridElement.None;
-
-    private Dictionary<Vector2Int, ColorOption> cellColorOptions = new Dictionary<Vector2Int, ColorOption>();
 
     private DirectionOption selectedDirection = DirectionOption.Up;
 
@@ -28,8 +25,6 @@ public class GridSystemDataEditor : Editor
         gridSizeX = serializedObject.FindProperty("gridSizeX");
         gridSizeY = serializedObject.FindProperty("gridSizeY");
         grids = serializedObject.FindProperty("grids");
-        //cellColorOptions = serializedObject.FindProperty("cellColorOptions");
-        //elementData = serializedObject.FindProperty("elementData");
     }
 
     public override void OnInspectorGUI()
@@ -48,11 +43,6 @@ public class GridSystemDataEditor : Editor
 
         GUILayout.Space(10);
 
-        //if (GUILayout.Button("Create Grid"))
-        //{
-        //    gridSystemData.InitializeGrid();
-        //    cellColorOptions.Clear();
-        //}
         var data = GetLevelData(grids.stringValue, gridSizeX.intValue, gridSizeY.intValue);
 
         GUILayout.Space(10);
@@ -69,8 +59,6 @@ public class GridSystemDataEditor : Editor
 
         serializedObject.ApplyModifiedProperties();
     }
-
-
 
     private void DrawColorSelector(GridSystemData gridSystemData)
     {
@@ -106,7 +94,7 @@ public class GridSystemDataEditor : Editor
         {
             return index;
         }
-        return 0; // Varsayýlan renk seçeneði
+        return 0;
     }
 
     private void SetSelectedColorIndex(GridElement element, int index)
@@ -124,17 +112,14 @@ public class GridSystemDataEditor : Editor
     {
         if (gridSizeX.intValue <= 0 || gridSizeY.intValue <= 0)
         {
-            // End the foldout group
             EditorGUILayout.EndFoldoutHeaderGroup();
             return data;
         }
 
         if (GUILayout.Button("Clear"))
         {
-            // Show a confirmation dialog
             if (EditorUtility.DisplayDialog($"Clear", "Are you sure you want to clear this layer? This process can not be reverted", "Yes", "No"))
-            {
-                // Reset the layer data if the button is pressed                    
+            {                  
                 data = GetLevelData(string.Empty, gridSizeX.intValue, gridSizeY.intValue);
             }
         }
@@ -153,13 +138,13 @@ public class GridSystemDataEditor : Editor
                 Vector2Int cellPos = new Vector2Int(x, y);
                 GridElement currentElement = (GridElement)grid.gridElementValue;
 
-                if (IsOnGridEdge(cellPos)) // Kenar hücre mi kontrol ediyoruz
+                if (IsOnGridEdge(cellPos))
                 {
-                    bgColor = Color.gray; // Kenar hücreleri gri yapalým
+                    bgColor = Color.gray;
                 }
                 else if (currentElement == GridElement.Obstacle1x1 || currentElement == GridElement.Obstacle1x2)
                 {
-                    bgColor = Color.black; // "Obstacle" için sabit renk olan siyahý kullanalým
+                    bgColor = Color.black;
                 }
                 else
                 {
@@ -175,11 +160,15 @@ public class GridSystemDataEditor : Editor
 
                 style.normal.textColor = textColor;
                 style.normal.background = MakeTex(2, 2, bgColor);
+                Color originalBackgroundColor = GUI.backgroundColor;
+
+                GUI.backgroundColor = bgColor;
+
 
                 EditorGUI.BeginDisabledGroup(IsOnGridEdge(cellPos));
+
                 if (GUILayout.Button(currentElement.ToString(), style, GUILayout.Width(40), GUILayout.Height(40)))
                 {
-                    Debug.Log("test");
                     Vector2Int selectedCellPos = new Vector2Int(x, y);
                     Vector2Int targetCellPos = selectedCellPos + GetTargetAddPoint();
                     Vector2Int targetCellPos2 = selectedCellPos + GetTargetAddPoint() + GetTargetAddPoint();
@@ -223,7 +212,7 @@ public class GridSystemDataEditor : Editor
                             {
                                 AddData(ref grid, grid2,grid3);
                                 AddData(ref grid2, grid, grid3);
-                                AddData(ref grid3, grid, grid3);
+                                AddData(ref grid3, grid, grid2);
                                 grid.colorControllerValue = GetSelectedColorIndex(selectedElement);
                                 grid.directionValue = ((int)selectedDirection);
                                 grid.gridElementValue = ((int)selectedElement);                      
@@ -308,40 +297,6 @@ public class GridSystemDataEditor : Editor
         return cellPos.x == 0 || cellPos.x == gridSizeX.intValue - 1 ||
                cellPos.y == 0 || cellPos.y == gridSizeY.intValue - 1;
     }
-    private ColorOption GetCellColorOption(Vector2Int cellPos, GridSystemData gridSystemData)
-    {
-        if (cellColorOptions.TryGetValue(cellPos, out ColorOption option))
-        {
-            return option;
-        }
-        return GetSelectedColorOption(selectedElement,gridSystemData);
-    }
-
-    private void SetCellColorOption(Vector2Int cellPos, ColorOption colorOption)
-    {
-        cellColorOptions[cellPos] = colorOption;
-    }
-
-    private ColorOption GetSelectedColorOption(GridElement element,GridSystemData gridSystemData)
-    {
-        int selectedColorIndex = GetSelectedColorIndex(element);
-        if(gridSystemData.colorController.colorOptions.Count > selectedColorIndex)
-            return gridSystemData.colorController.colorOptions[selectedColorIndex];
-        return new ColorOption();
-    }
-
-    private void SetCurrentColorOption(GridElement element, ColorOption colorOption)
-    {
-        Vector2Int cellPos = GetGridPosition();
-        cellColorOptions[cellPos] = colorOption;
-    }
-
-    private Vector2Int GetGridPosition()
-    {
-        int x = (int)GUILayoutUtility.GetLastRect().xMin;
-        int y = (int)GUILayoutUtility.GetLastRect().yMin;
-        return new Vector2Int(x, y);
-    }
 
     private Texture2D MakeTex(int width, int height, Color color)
     {
@@ -368,8 +323,6 @@ public class GridSystemDataEditor : Editor
         {
             return data.ToArray();
         }
-
-        // Generate empty level data
         data.Clear();
         for (var x = 0; x < sizeX; x++)
         {

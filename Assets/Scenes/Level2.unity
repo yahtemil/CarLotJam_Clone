@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2103,7 +2103,7 @@ MonoBehaviour:
   Camera2: {fileID: 778475941}
   startPoint: {fileID: 0}
   endPoint: {fileID: 0}
-  gridData: {fileID: 11400000, guid: cedc4dc744736e641adc692ee60674ac, type: 2}
+  gridData: {fileID: 11400000, guid: ff0400478ad05f442b2f0bdc3a92f425, type: 2}
 --- !u!4 &1314166384
 Transform:
   m_ObjectHideFlags: 0

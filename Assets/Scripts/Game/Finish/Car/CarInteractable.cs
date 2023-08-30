@@ -60,7 +60,6 @@ public class CarInteractable : MonoBehaviour, IAnimation, IMovable, IObject
         FinishLiner.instance.carCounter++;
     }
 
-
     public void AnimationPlay(bool activeAnimation)
     {
         if (tutorialLevel && !tutorialFinish)
@@ -172,7 +171,6 @@ public class CarInteractable : MonoBehaviour, IAnimation, IMovable, IObject
     IEnumerator MoveTiming(bool forward)
     {
         activeMove = true;
-        CloseTag();
         foreach (var item in triggerGrids)
         {
             item.triggerObject = null;
@@ -200,18 +198,5 @@ public class CarInteractable : MonoBehaviour, IAnimation, IMovable, IObject
         transform.DORotate(Vector3.zero, move.rotateSpeed);
         transform.DOMove(transform.position + Vector3.forward * 10, move.moveSpeed * 10).SetEase(Ease.Linear);
         
-    }
-
-    private void CloseTag()
-    {
-        //Transform[] childObjects = transform.GetComponentsInChildren<Transform>();
-
-        //foreach (Transform child in childObjects)
-        //{
-        //    if (child.CompareTag("Car"))
-        //    {
-        //        child.tag = "Untagged";
-        //    }
-        //}
     }
 }
